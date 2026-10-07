@@ -1,0 +1,7 @@
+# 把下面的域名替换为你自己的域名（需已解析到服务器 IP）
+# Caddy 会自动申请并续期 HTTPS 证书，无需手动配置
+
+study.example.com {
+	encode gzip
+	reverse_proxy app:3000
+}

@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    image: study-tracker:latest
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      # SQLite 数据库持久化在宿主机 ./data 目录
+      - ./data:/app/data
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
+  caddy_config:
